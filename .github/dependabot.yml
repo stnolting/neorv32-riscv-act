@@ -7,6 +7,10 @@ updates:
       prefix: "[Dependabot]"
     schedule:
       interval: "weekly"
+      day: "friday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -14,3 +18,8 @@ updates:
       prefix: "[Dependabot]"
     schedule:
       interval: "weekly"
+      interval: "weekly"
+      day: "friday"
+      time: "06:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
