@@ -1,0 +1,54 @@
+name: 'RISC-V Architectural Certification Tests (ACTs)'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  neorv32-rv-act:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: '📂 Repository checkout'
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: '📦 Install Python'
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
+
+    - name: '📦 Install xPack RISC-V GCC'
+      run: |
+        wget -q https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v15.2.0-1/xpack-riscv-none-elf-gcc-15.2.0-1-linux-x64.tar.gz
+        mkdir $GITHUB_WORKSPACE/riscv-gcc
+        tar -xzf xpack-riscv-none-elf-gcc-15.2.0-1-linux-x64.tar.gz -C $GITHUB_WORKSPACE/riscv-gcc
+        echo $GITHUB_WORKSPACE/riscv-gcc/xpack-riscv-none-elf-gcc-15.2.0-1/bin >> $GITHUB_PATH
+
+    - name: '📦 Install Sail RISC-V reference model'
+      run: |
+        wget https://github.com/riscv/sail-riscv/releases/download/0.11/sail-riscv-$(uname)-$(arch).tar.gz
+        mkdir $GITHUB_WORKSPACE/sail-riscv
+        tar -xzf $GITHUB_WORKSPACE/sail-riscv-$(uname)-$(arch).tar.gz -C $GITHUB_WORKSPACE/sail-riscv
+        echo $GITHUB_WORKSPACE/sail-riscv/sail-riscv-$(uname)-$(arch)/bin >> $GITHUB_PATH
+
+    - name: '📦 Install GHDL'
+      uses: ghdl/setup-ghdl@v1
+      with:
+        version: nightly
+        backend: mcode
+
+    - name: '📦 Install mise'
+      run: |
+        curl https://mise.jdx.dev/install.sh | sh
+
+    - name: '🔍 Check tools'
+      run: |
+        make check
