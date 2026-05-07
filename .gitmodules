@@ -2,7 +2,9 @@
 	path = neorv32
 	url = https://github.com/stnolting/neorv32.git
 	branch = main
+	ignore = dirty
 [submodule "riscv-arch-test"]
 	path = riscv-arch-test
 	url = https://github.com/riscv/riscv-arch-test.git
 	branch = act4
+	ignore = dirty
