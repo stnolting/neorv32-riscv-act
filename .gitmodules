@@ -1,0 +1,8 @@
+[submodule "neorv32"]
+	path = neorv32
+	url = https://github.com/stnolting/neorv32.git
+	branch = main
+[submodule "riscv-arch-test"]
+	path = riscv-arch-test
+	url = https://github.com/riscv/riscv-arch-test.git
+	branch = act4
