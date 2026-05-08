@@ -4,7 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'config/**'
+      - '**/*.vhd'
+      - '**/Makeile'
   pull_request:
+    paths:
+      - 'config/**'
+      - '**/*.vhd'
+      - '**/Makeile'
   workflow_dispatch:
 
 jobs:
@@ -55,16 +63,16 @@ jobs:
 
     - name: '⚙️ Generate tests and coverpoints'
       run: |
-        echo "TODO"
+        make tests
 
     - name: '⚙️ Build ELFs'
       run: |
-        echo "TODO"
+        make elfs
 
-    - name: '⚙️ Setup GHDL simulation'
+    - name: '⚙️ Setup simulation'
       run: |
-        echo "TODO"
+        make setup
 
     - name: '▶️ Run tests'
       run: |
-        echo "TODO"
+        make run
