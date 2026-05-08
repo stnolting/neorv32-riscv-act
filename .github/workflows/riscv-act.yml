@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  neorv32-rv-act:
+  neorv32-riscv-act:
     runs-on: ubuntu-latest
 
     steps:
@@ -52,3 +52,19 @@ jobs:
     - name: '🔍 Check tools'
       run: |
         make check
+
+    - name: '⚙️ Generate tests and coverpoints'
+      run: |
+        echo "TODO"
+
+    - name: '⚙️ Build ELFs'
+      run: |
+        echo "TODO"
+
+    - name: '⚙️ Setup GHDL simulation'
+      run: |
+        echo "TODO"
+
+    - name: '▶️ Run tests'
+      run: |
+        echo "TODO"
