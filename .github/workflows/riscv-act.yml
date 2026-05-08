@@ -7,12 +7,14 @@ on:
     paths:
       - 'config/**'
       - '**/*.vhd'
-      - '**/Makeile'
+      - '**/*.yml'
+      - '**/Makefile'
   pull_request:
     paths:
       - 'config/**'
       - '**/*.vhd'
-      - '**/Makeile'
+      - '**/*.yml'
+      - '**/Makefile'
   workflow_dispatch:
 
 jobs:

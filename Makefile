@@ -49,7 +49,7 @@ setup:
 
 # run ELFs on NEORV32
 run:
-	chmod +x ./config/run_cmd.sh && \
+	chmod +x ./config/run_cmd.sh
 	cd riscv-arch-test && \
 	./run_tests.py -v -d "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
 
