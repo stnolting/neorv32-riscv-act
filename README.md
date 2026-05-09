@@ -67,6 +67,10 @@ neorv32-riscv-act$ make all
 The test are executed automatically as a [GitHub cction](https://github.com/stnolting/neorv32-riscv-act/actions/workflows/riscv-act.yml).
 Dependabot updates the riscv-arch-test and NEORV32 submodules as soon as updates are available in the main branches.
 
+> [!TIP]
+> Click on the CI status badge on top of this page to see the latest compatibility test workflow runs.
+> The test report summary is available as GitHib actions artifact.
+
 
 ## TODOs
 

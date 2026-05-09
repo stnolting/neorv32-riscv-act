@@ -78,3 +78,9 @@ jobs:
     - name: '▶️ Run tests'
       run: |
         make run
+
+    - name: '📤 Archive test report'
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-summary
+        path: riscv-arch-test/work/neorv32/summary.log
