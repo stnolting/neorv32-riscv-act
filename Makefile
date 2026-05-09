@@ -2,7 +2,10 @@
 
 .DEFAULT_GOAL := help
 
-all: check mise tests elfs setup run
+all: mise tests elfs setup run
+
+# number of parallel jobs
+JOBS ?= $(shell nproc)
 
 # check tools
 check:
@@ -24,7 +27,6 @@ check:
 	@echo "Tool checks OK"
 
 # allow mise to install required tools
-# [NOTE] sudo chown -R $USER:$USER /var/lib/gems/3.2.0/
 mise:
 	cd riscv-arch-test && \
 	mise trust .mise.toml
@@ -33,14 +35,14 @@ mise:
 tests:
 	cd riscv-arch-test && \
 	CONFIG_FILES=../config/test_config.yaml \
-	make tests --jobs $(nproc)
+	make tests --jobs $(JOBS)
 
 # build target ELFs
 elfs:
 	cd riscv-arch-test && \
 	EXCLUDE_EXTENSIONS= \
 	CONFIG_FILES=../config/test_config.yaml \
-	make elfs --jobs $(nproc)
+	make elfs --jobs $(JOBS)
 
 # setup GHDL simulation
 setup:
@@ -51,7 +53,7 @@ setup:
 run:
 	chmod +x ./config/run_cmd.sh
 	cd riscv-arch-test && \
-	./run_tests.py -v -d "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
+	./run_tests.py -d --timeout 900 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
 
 # cleanup everything
 clean:
@@ -69,4 +71,5 @@ help:
 	@echo "setup - setup simulation"
 	@echo "run   - run all tests on target"
 	@echo "clean - remove all artifacts"
+	@echo "all   - mise + tests + elfs + setup + run"
 	@echo "help  - show this text"

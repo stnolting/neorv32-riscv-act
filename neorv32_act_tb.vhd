@@ -22,7 +22,7 @@ entity neorv32_act_tb is
   generic (
     TEST_BIN  : string  := "";      -- path + file of test memory image (flattened ELF binary)
     TRACE_LOG : string  := "";      -- path + file of trace log; no logging when empty
-    MEM_SIZE  : natural := 256*1024 -- main memory size in bytes
+    MEM_SIZE  : natural := 512*1024 -- main memory size in bytes
   );
 end neorv32_act_tb;
 
@@ -93,6 +93,7 @@ begin
     RISCV_ISA_Zcb       => true,
     RISCV_ISA_Zba       => true,
     RISCV_ISA_Zbb       => true,
+    RISCV_ISA_Zbc       => true,
     RISCV_ISA_Zbkb      => true,
     RISCV_ISA_Zbkc      => true,
     RISCV_ISA_Zbkx      => true,
@@ -106,6 +107,7 @@ begin
     RISCV_ISA_Zknh      => true,
     RISCV_ISA_Zksed     => true,
     RISCV_ISA_Zksh      => true,
+    RISCV_ISA_Smcntrpmf => true,
     -- Tuning Options --
     CPU_FAST_MUL_EN     => true,
     CPU_FAST_SHIFT_EN   => true,
@@ -115,7 +117,7 @@ begin
     PMP_TOR_MODE_EN     => true,
     PMP_NAP_MODE_EN     => true,
     -- Hardware Performance Monitors (HPM) --
-    HPM_NUM_CNTS        => 13,
+    HPM_NUM_CNTS        => 29,
     HPM_CNT_WIDTH       => 64,
     -- Internal memories --
     IMEM_EN             => false,
