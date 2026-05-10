@@ -118,7 +118,7 @@
         "lrsc": "AccessFault",
         // Similarly, a misaligned AMO currently always faults, and this field
         // can specify either `"AccessFault"` or `"AlignmentException"`.
-        "amo": "AccessFault"
+        "amo": "AlignmentException"
       },
       // If a misaligned access was specified to have no fault in `exceptions` above, the
       // fields below specify how it is handled.
