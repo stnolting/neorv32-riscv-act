@@ -69,6 +69,11 @@
 #define RVMODEL_ACCESS_FAULT_ADDRESS 0x00000000
 
 
+##### MTVEC Alignment #####
+
+#define RVMODEL_MTVEC_ALIGN 7
+
+
 ##### Interrupt Latency #####
 
 #define RVMODEL_INTERRUPT_LATENCY 6
@@ -76,7 +81,7 @@
 
 ##### Machine Timer #####
 
-#define RVMODEL_TIMER_INT_SOON_DELAY 1
+#define RVMODEL_TIMER_INT_SOON_DELAY 100
 #define RVMODEL_MTIME_ADDRESS 0xFFF4BFF8
 #define RVMODEL_MTIMECMP_ADDRESS 0xFFF44000
 

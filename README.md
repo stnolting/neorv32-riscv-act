@@ -40,12 +40,12 @@ This subsystem provides main memory and environment control mechanisms:
 | `0xF0000008` | Bit 0 controls the hart's external machine interrupt; used by `RVMODEL_SET_MEXT_INT` and `RVMODEL_CLR_MEXT_INT` macros |
 
 > [!NOTE]
-> For advanced profiling and debugging, execution trace data is logged to the test's `log` folders.
+> For advanced profiling and debugging, execution trace data is logged in the test's `log` folders.
 
 
 ## Running ACT
 
-Once all prerequisites have been installed the main Makefile is used to build and run the tests:
+A simple [`Makefile`](Makefile) is used for building and running the tests.
 
 ```bash
 neorv32-riscv-act$ make help
@@ -60,20 +60,35 @@ run   - run all tests on target
 clean - remove all artifacts
 all   - mise + tests + elfs + setup + run
 help  - show this text
-neorv32-riscv-act$ make all
-...
 ```
 
-The test are executed automatically as a [GitHub cction](https://github.com/stnolting/neorv32-riscv-act/actions/workflows/riscv-act.yml).
-Dependabot updates the riscv-arch-test and NEORV32 submodules as soon as updates are available in the main branches.
+Once all prerequisites have been installed the `check` target can be used to check all tools:
+
+```bash
+neorv32-riscv-act$ make check
+```
+
+If "Tool checks OK" appears at the end the setup is ready to run. Use the `all` target to generate all test cases
+and run them on the DUT:
+
+```bash
+neorv32-riscv-act$ make all
+```
+
+The final test report is available in `neorv32-riscv-act/riscv-arch-test/work/neorv32/summary.log`.
+
+The tests are executed automatically as a [GitHub action](https://github.com/stnolting/neorv32-riscv-act/actions/workflows/riscv-act.yml).
+Dependabot is used to keep the riscv-arch-test and NEORV32 submodules up to date.
 
 > [!TIP]
 > Click on the CI status badge on top of this page to see the latest compatibility test workflow runs.
-> The test report summary is available as GitHib actions artifact.
+> The test report summary is available as GitHib actions artifact by clicking on any completed run.
 
 
 ## TODOs
 
 * add support for all ISA extensions provided by NEORV32
+* find out why the tests listed in `EXCLUDE_EXTENSIONS` are not working
 * check the PMP grain configuration; currently, the granularity is set to 8 bytes, which means that no PMP-NA4 tests are executed
-* T.B.A.
+* find out why `U`-mode tests do not work
+* check alignment contstraints of `mtvec` (this might the reason for the failing `InterruptsSm` tests)
