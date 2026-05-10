@@ -38,7 +38,7 @@
       "samo_address_misaligned": true,
       "samo_access_fault": true,
       "samo_page_fault": false,
-      "fetch_address_misaligned": false,
+      "fetch_address_misaligned": true,
       "fetch_access_fault": false,
       "fetch_page_fault": false,
       "software_check": false,
@@ -304,7 +304,7 @@
     // Note: it is also legal for these instructions to spuriously
     // retire successfully at any point, but there is currently no
     // configuration option for this behaviour.
-    "max_time_to_wait": 10
+    "max_time_to_wait": 200
   },
   "extensions": {
     "M": {
