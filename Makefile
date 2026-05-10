@@ -42,7 +42,7 @@ tests:
 elfs:
 	@echo "Building ELFs..."
 	cd riscv-arch-test && \
-	EXCLUDE_EXTENSIONS=InterruptsSm \
+	EXCLUDE_EXTENSIONS= \
 	CONFIG_FILES=../config/test_config.yaml \
 	make elfs --jobs $(JOBS)
 
