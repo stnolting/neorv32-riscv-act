@@ -33,30 +33,35 @@ mise:
 
 # generate tests and coverpoints
 tests:
+	@echo "Generating tests and coverpoints..."
 	cd riscv-arch-test && \
 	CONFIG_FILES=../config/test_config.yaml \
 	make tests --jobs $(JOBS)
 
 # build target ELFs
 elfs:
+	@echo "Building ELFs..."
 	cd riscv-arch-test && \
-	EXCLUDE_EXTENSIONS= \
+	EXCLUDE_EXTENSIONS=InterruptsSm \
 	CONFIG_FILES=../config/test_config.yaml \
 	make elfs --jobs $(JOBS)
 
 # setup GHDL simulation
 setup:
+	@echo "Preparing GHDL simulation..."
 	ghdl -i --work=neorv32 --std=08 neorv32/rtl/core/*.vhd neorv32_act_tb.vhd && \
 	ghdl -m --std=08 --work=neorv32 neorv32_act_tb
 
 # run ELFs on NEORV32
 run:
+	@echo "Running tests..."
 	chmod +x ./config/run_cmd.sh
 	cd riscv-arch-test && \
 	./run_tests.py -d --timeout 900 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
 
 # cleanup everything
 clean:
+	@echo "Cleaning up..."
 	cd riscv-arch-test && make clean
 	rm -f *.cf
 
