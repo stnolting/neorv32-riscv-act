@@ -11,7 +11,7 @@ implemented_extensions:
   - { name: C, version: "= 2.0" }
   - { name: I, version: "= 2.1" }
   - { name: M, version: "= 2.0" }
-# - { name: U, version: "= 1.0.0" }
+  - { name: U, version: "= 1.0.0" }
   - { name: Sm, version: "= 1.13.0" }
   - { name: Smcntrpmf, version: "= 1.0.0" }
   - { name: Zaamo, version: "= 1.0.0" }
@@ -57,10 +57,10 @@ params:
   # Zicntr params
   TIME_CSR_IMPLEMENTED: true
   # U params
-# MUTABLE_MISA_U: false
-# U_MODE_ENDIANNESS: little
-# UXLEN: [32]
-# TRAP_ON_ECALL_FROM_U: true
+  MUTABLE_MISA_U: false
+  U_MODE_ENDIANNESS: little
+  UXLEN: [32]
+  TRAP_ON_ECALL_FROM_U: true
   # Sm params
   MXLEN: 32
   PRECISE_SYNCHRONOUS_EXCEPTIONS: true
