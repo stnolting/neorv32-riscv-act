@@ -97,7 +97,7 @@ params:
   MTVEC_BASE_ALIGNMENT_VECTORED: 128
   MTVEC_ILLEGAL_WRITE_BEHAVIOR: retain
   NUM_PMP_ENTRIES: 16
-  PMP_GRANULARITY: 8 # granularity = 2**(GRAIN+2)
+  PMP_GRANULARITY: 4 # granularity = 2**(GRAIN+2)
   HPM_COUNTER_EN:
     [
       false,

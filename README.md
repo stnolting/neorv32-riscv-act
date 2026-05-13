@@ -88,7 +88,4 @@ Dependabot is used to keep the riscv-arch-test and NEORV32 submodules up to date
 ## TODOs
 
 * add support for all ISA extensions provided by NEORV32
-* find out why the tests listed in `EXCLUDE_EXTENSIONS` are not working
-* check the PMP grain configuration; currently, the granularity is set to 8 bytes, which means that no PMP-NA4 tests are executed
-* find out why `U`-mode tests do not work
-* check alignment contstraints of `mtvec` (this might the reason for the failing `InterruptsSm` tests)
+* find out why `U`-mode tests do not work; Sail emits strange errors like "possible trap loop detected with MEPC=0x80001a3c and SEPC=0x0", but `S` is not implemented?!

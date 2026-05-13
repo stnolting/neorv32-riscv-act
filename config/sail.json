@@ -77,7 +77,7 @@
   },
   "memory": {
     "pmp": {
-      "grain": 1,
+      "grain": 0,
       // This specifies the number of PMP entries present.
       // The value must be one of 0, 16, or 64.
       "count": 16,
@@ -86,7 +86,7 @@
       // The value must be less than or equal to `count`.
       "usable_count": 16,
       "tor_supported": true,
-      "na4_supported": false,
+      "na4_supported": true,
       "napot_supported": true
     },
     // These settings control global support for misaligned access so they are

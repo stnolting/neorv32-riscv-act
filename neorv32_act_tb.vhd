@@ -113,7 +113,7 @@ begin
     CPU_FAST_SHIFT_EN   => true,
     -- Physical Memory Protection --
     PMP_NUM_REGIONS     => 16,
-    PMP_MIN_GRANULARITY => 8, -- [TODO] Granularity = 4 bytes -> NA4 seems to have issues...
+    PMP_MIN_GRANULARITY => 4,
     PMP_TOR_MODE_EN     => true,
     PMP_NAP_MODE_EN     => true,
     -- Hardware Performance Monitors (HPM) --
