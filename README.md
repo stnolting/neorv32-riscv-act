@@ -75,7 +75,7 @@ neorv32-riscv-act$ make all
 The final test report is available in `neorv32-riscv-act/riscv-arch-test/work/neorv32/summary.log`.
 
 The tests are executed automatically as a [GitHub action](https://github.com/stnolting/neorv32-riscv-act/actions/workflows/riscv-act.yml).
-Dependabot is used to keep the riscv-arch-test and NEORV32 submodules up to date.
+Dependabot is used to keep the `riscv-arch-test` and `neorv32` submodules up to date.
 
 > [!TIP]
 > Click on the CI status badge on top of this page to see the latest compatibility test workflow runs.
@@ -97,5 +97,5 @@ Trace logs will be generated in the test's `log` folder(s) using the following n
 
 ## TODOs
 
-* add support for all ISA extensions provided by NEORV32
+* add support for all ISA extensions provided by NEORV32: `Zibi` (not ratified yet), `U` (see below), `E` (how to enable this)
 * find out why `U`-mode tests do not work; Sail emits strange errors like "possible trap loop detected with MEPC=0x80001a3c and SEPC=0x0", but `S` is not implemented?!

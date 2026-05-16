@@ -4,6 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WORKDIR="$SCRIPT_DIR/.."
 
+# parse arguments; compatible with riscv-arch-test's "run_tests.py"
 # $1 = trace log path (via __TRACEFILE__)
 # $2 = ELF path (appended by run_tests.py call)
 TRACE_LOG="$1"
