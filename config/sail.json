@@ -115,7 +115,7 @@
         // A misaligned LR/SC currently always faults, and this field can specify
         // whether it generates an access fault (use `"AccessFault"`)
         // or a misaligned exception (use `"AlignmentException"`).
-        "lrsc": "AccessFault",
+        "lrsc": "AlignmentException",
         // Similarly, a misaligned AMO currently always faults, and this field
         // can specify either `"AccessFault"` or `"AlignmentException"`.
         "amo": "AlignmentException"
@@ -176,7 +176,7 @@
             "vector": {
               "None": null
             },
-            "amo": "AccessFault"
+            "amo": "AlignmentException"
           },
           "atomic_support": "AMONone",
           "reservability": "RsrvNone",
@@ -212,7 +212,7 @@
             "vector": {
               "Some": "AlignmentException"
             },
-            "amo": "AccessFault"
+            "amo": "AlignmentException"
           },
           "atomic_support": "AMONone",
           "reservability": "RsrvNone",
@@ -248,7 +248,7 @@
             "vector": {
               "None": null
             },
-            "amo": "AccessFault"
+            "amo": "AlignmentException"
           },
           "atomic_support": "AMOArithmetic",
           "reservability": "RsrvEventual",
@@ -271,12 +271,17 @@
       // This specifies both the size and alignment of the reservation set, specified as a power of 2.
       // It must be at least 2 on RV32 and 3 on RV64 to support Zalrsc.  It must not be more than
       // 6 for Za64rs and 7 for Za128rs.  In all cases, it must be less than or equal to 12.
-      "reservation_set_size_exp": 2,
+      "reservation_set_size_exp": 6,
       // Some implementations (e.g. Spike) require the Store-Conditional to provide the same
       // address as the matching Load-Reserve in order to succeed, regardless of the
       // configured reservation set size.  This controls whether such an exact address
       // match is required for a Store-Conditional to succeed.
-      "require_exact_reservation_addr": false
+      "require_exact_reservation_addr": false,
+      // Some implementations (e.g. SiFive U74) also invalidate the
+      // reservation on stores from the same hart.  If this is set to `true`, the
+      // model invalidates the reservation if a store from the same hart lies within
+      // the reservation set.
+      "invalidate_on_same_hart_store": true
     },
     "clint": {
       // This must be in a suitable IO memory region (see `memory.regions`).

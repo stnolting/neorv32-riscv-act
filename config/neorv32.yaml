@@ -6,7 +6,7 @@ type: fully configured
 name: neorv32
 description: NEORV32 max configuration
 implemented_extensions:
-# - { name: A, version: "= 2.1.0" }
+  - { name: A, version: "= 2.1.0" }
   - { name: B, version: "= 1.0.0" }
   - { name: C, version: "= 2.0" }
   - { name: I, version: "= 2.1" }
@@ -15,7 +15,7 @@ implemented_extensions:
   - { name: Sm, version: "= 1.13.0" }
   - { name: Smcntrpmf, version: "= 1.0.0" }
   - { name: Zaamo, version: "= 1.0.0" }
-# - { name: Zalrsc, version: "= 1.0.0" }
+  - { name: Zalrsc, version: "= 1.0.0" }
   - { name: Zba, version: "= 1.0.0" }
   - { name: Zbb, version: "= 1.0.0" }
   - { name: Zbc, version: "= 1.0.0" }
@@ -25,7 +25,6 @@ implemented_extensions:
   - { name: Zbs, version: "= 1.0.0" }
   - { name: Zca, version: "= 1.0.0" }
   - { name: Zcb, version: "= 1.0.0" }
-# - { name: Zibi, version: "= 1.0.0" }
   - { name: Zicntr, version: "= 2.0" }
   - { name: Zicsr, version: "= 2.0" }
   - { name: Zicond, version: "= 1.0.0" }
@@ -43,11 +42,11 @@ implemented_extensions:
 params:
   # A params
   MISALIGNED_AMO: false
-# LRSC_RESERVATION_STRATEGY: "reserve exactly enough to cover the access"
-# LRSC_FAIL_ON_VA_SYNONYM: false
-# LRSC_MISALIGNED_BEHAVIOR: "always raise access fault"
-# LRSC_FAIL_ON_NON_EXACT_LRSC: true
-# MUTABLE_MISA_A: false
+  LRSC_RESERVATION_STRATEGY: "reserve naturally-aligned 64-byte region"
+  LRSC_FAIL_ON_VA_SYNONYM: false
+  LRSC_MISALIGNED_BEHAVIOR: "always raise misaligned exception"
+  LRSC_FAIL_ON_NON_EXACT_LRSC: true
+  MUTABLE_MISA_A: false
   # M params
   MUTABLE_MISA_M: false
   # C params
