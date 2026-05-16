@@ -39,9 +39,6 @@ This subsystem provides main memory and environment control mechanisms:
 | `0xF0000004` | Print character (lowest 8 bits) to the simulator console; used by the `RVMODEL_IO_WRITE_STR` macro for test status and logging |
 | `0xF0000008` | Bit 0 controls the hart's external machine interrupt; used by `RVMODEL_SET_MEXT_INT` and `RVMODEL_CLR_MEXT_INT` macros |
 
-> [!NOTE]
-> For advanced profiling and debugging, execution trace data is logged in the test's `log` folders.
-
 
 ## Running ACT
 
@@ -83,6 +80,19 @@ Dependabot is used to keep the riscv-arch-test and NEORV32 submodules up to date
 > [!TIP]
 > Click on the CI status badge on top of this page to see the latest compatibility test workflow runs.
 > The test report summary is available as GitHib actions artifact by clicking on any completed run.
+
+
+### Debugging
+
+The DUT can emit full execution trage logs for debugging. To enable trace logging, enable the `TRACE_EN`
+generic in the NEORV32 (testbench)[`neorv32_act_tb.vhd`] entity:
+
+```vhdl
+TRACE_EN : boolean := true; -- enable trace logging
+```
+
+Recompile the simulation base using `$make setup` and (re-)run the failed test(s).
+Trace logs will be generated in the test's `log` folder(s) using the following naming scheme: `<test-name>.trace.log`
 
 
 ## TODOs

@@ -21,6 +21,7 @@ use neorv32.neorv32_package.all;
 entity neorv32_act_tb is
   generic (
     TEST_BIN  : string  := "";      -- path + file of test memory image (flattened ELF binary)
+    TRACE_EN  : boolean := false;   -- enable trace logging (disabled by default)
     TRACE_LOG : string  := "";      -- path + file of trace log; no logging when empty
     MEM_SIZE  : natural := 512*1024 -- main memory size in bytes
   );
@@ -153,7 +154,7 @@ begin
   -- Trace Log Generator --------------------------------------------------------------------
   -- -------------------------------------------------------------------------------------------
   trace_enable:
-  if (TRACE_LOG /= "") generate
+  if TRACE_EN and (TRACE_LOG /= "") generate
     neorv32_cpu_trace_simlog_inst: entity neorv32.neorv32_cpu_trace_simlog
     generic map (
       LOG_FILE => TRACE_LOG
