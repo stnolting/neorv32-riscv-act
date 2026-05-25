@@ -3,6 +3,8 @@
 #ifndef _RVMODEL_MACROS_H
 #define _RVMODEL_MACROS_H
 
+#define STANDARD_SM_SUPPORTED
+
 #define RVMODEL_DATA_SECTION                      \
   .pushsection .tohost,"aw",@progbits;            \
   .align 8; .global tohost; tohost: .dword 0;     \
