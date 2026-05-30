@@ -42,8 +42,10 @@ tests:
 elfs:
 	@echo "Building ELFs..."
 	cd riscv-arch-test && \
-	EXCLUDE_EXTENSIONS=ExceptionsZicboU,InterruptsU,ZicntrU,ExceptionsU,U,SsstrictSm,SsstrictS,SsstrictU \
+	EXCLUDE_EXTENSIONS=ExceptionsZicboU,SsstrictSm,SsstrictU,InterruptsU \
 	CONFIG_FILES=../config/test_config.yaml \
+	EXTENSIONS= \
+	DEBUG=False \
 	make elfs --jobs $(JOBS)
 
 # setup GHDL simulation
@@ -57,7 +59,7 @@ run:
 	@echo "Running tests..."
 	chmod +x ./config/run_cmd.sh
 	cd riscv-arch-test && \
-	./run_tests.py --timeout 900 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
+	./run_tests.py --timeout 2000 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
 
 # cleanup everything
 clean:
