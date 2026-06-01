@@ -42,7 +42,7 @@ tests:
 elfs:
 	@echo "Building ELFs..."
 	cd riscv-arch-test && \
-	EXCLUDE_EXTENSIONS=ExceptionsZicboU,SsstrictSm,SsstrictU,InterruptsU \
+	EXCLUDE_EXTENSIONS=SsstrictSm,SsstrictU,InterruptsU \
 	CONFIG_FILES=../config/test_config.yaml \
 	EXTENSIONS= \
 	DEBUG=False \
