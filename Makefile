@@ -2,10 +2,15 @@
 
 .DEFAULT_GOAL := help
 
-all: mise tests elfs setup run
+all: setup mise tests elfs sim run
 
 # number of parallel jobs
 JOBS ?= $(shell nproc)
+
+# NEORV32 package file
+DUT_VHDL_PKG = neorv32/rtl/core/neorv32_package.vhd
+# NEORV32 sail configuration file
+CONFIG_SAIL_JSON = config/sail.json
 
 # check tools
 check:
@@ -22,9 +27,18 @@ check:
 	mise --version
 	@echo "------------------------------"
 	@echo "NEORV32 hardware version"
-	@grep "hw_version_c" neorv32/rtl/core/neorv32_package.vhd
+	@grep "hw_version_c" $(DUT_VHDL_PKG)
 	@echo "------------------------------"
 	@echo "Tool checks OK"
+
+# setup DUT configuration
+setup:
+	@echo "Setup DUT configuration..."
+	@echo "Updating IMPID value in Sail config..."
+	$(eval HEX := $(shell grep -i 'constant\s\+hw_version_c' $(DUT_VHDL_PKG) | sed -n 's/.*x"\([0-9a-fA-F]\+\)".*/\1/p'))
+	$(eval DEC := $(shell printf "%d" 0x$(HEX)))
+	@echo "NEORV32 hw_version_c = 0x$(HEX) -> Sail impid = $(DEC)"
+	@sed -i 's/"impid":\s*[0-9]\+/"impid": $(DEC)/' $(CONFIG_SAIL_JSON)
 
 # allow mise to install required tools
 mise:
@@ -47,10 +61,10 @@ elfs:
 	EXTENSIONS= \
 	DEBUG=False \
 	make elfs --jobs $(JOBS)
-
-# setup GHDL simulation
-setup:
-	@echo "Preparing GHDL simulation..."
+  
+# setup DUT simulation
+sim:
+	@echo "Preparing DUT GHDL simulation..."
 	ghdl -i --work=neorv32 --std=08 neorv32/rtl/core/*.vhd neorv32_act_tb.vhd && \
 	ghdl -m --std=08 --work=neorv32 neorv32_act_tb
 
@@ -72,11 +86,12 @@ help:
 	@echo "NEORV32 RISC-V ACT Makefile"
 	@echo ""
 	@echo "check - check required tools"
+	@echo "setup - setup DUT configuration and simulation"
 	@echo "mise  - allow mise to install required tools"
 	@echo "tests - generate tests and coverpoints"
 	@echo "elfs  - build target ELFs"
-	@echo "setup - setup simulation"
+	@echo "sim   - setup DUT simulation"
 	@echo "run   - run all tests on target"
 	@echo "clean - remove all artifacts"
-	@echo "all   - mise + tests + elfs + setup + run"
+	@echo "all   - setup + mise + tests + elfs + sim + run"
 	@echo "help  - show this text"

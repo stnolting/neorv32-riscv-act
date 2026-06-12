@@ -49,13 +49,14 @@ neorv32-riscv-act$ make help
 NEORV32 RISC-V ACT Makefile
 
 check - check required tools
+setup - setup DUT configuration
 mise  - allow mise to install required tools
 tests - generate tests and coverpoints
 elfs  - build target ELFs
-setup - setup simulation
+sim   - setup DUT simulation
 run   - run all tests on target
 clean - remove all artifacts
-all   - mise + tests + elfs + setup + run
+all   - setup + mise + tests + elfs + sim + run
 help  - show this text
 ```
 
@@ -84,7 +85,7 @@ Dependabot is used to keep the `riscv-arch-test` and `neorv32` submodules up to 
 
 ### Debugging
 
-The Sail reference modell generates full trace logs when the debugging flag is set int he main makefile:
+The Sail reference model generates full trace logs when the debugging flag is set int he main makefile:
 
 ```makefile
 	DEBUG=True \
@@ -99,7 +100,13 @@ generic in the (testbench)[`neorv32_act_tb.vhd`] entity:
 TRACE_EN : boolean := true; -- enable trace logging
 ```
 
-Recompile the simulation base using `$make setup` and (re-)run the failed test(s).
+Add the failed test(s) to the `EXTENSIONS` variable, e.g.:
+
+```makefile
+	EXTENSIONS=Sm,U \
+```
+
+Recompile the simulation base using `$make sim` and (re-)run test(s).
 Trace logs will be generated in the test's `log` folder(s) using the following naming scheme: `<test-name>.trace.log`
 
 
