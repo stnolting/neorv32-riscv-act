@@ -63,6 +63,10 @@ jobs:
       run: |
         make check
 
+    - name: '⚙️ Setup configuration'
+      run: |
+        make setup
+
     - name: '⚙️ Generate tests and coverpoints'
       run: |
         make tests
@@ -73,7 +77,7 @@ jobs:
 
     - name: '⚙️ Setup simulation'
       run: |
-        make setup
+        make sim
 
     - name: '▶️ Run tests'
       run: |
