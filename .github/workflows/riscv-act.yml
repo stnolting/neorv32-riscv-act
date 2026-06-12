@@ -44,7 +44,7 @@ jobs:
 
     - name: '📦 Install Sail RISC-V reference model'
       run: |
-        wget https://github.com/riscv/sail-riscv/releases/download/0.11/sail-riscv-$(uname)-$(arch).tar.gz
+        wget https://github.com/riscv/sail-riscv/releases/download/0.12/sail-riscv-$(uname)-$(arch).tar.gz
         mkdir $GITHUB_WORKSPACE/sail-riscv
         tar -xzf $GITHUB_WORKSPACE/sail-riscv-$(uname)-$(arch).tar.gz -C $GITHUB_WORKSPACE/sail-riscv
         echo $GITHUB_WORKSPACE/sail-riscv/sail-riscv-$(uname)-$(arch)/bin >> $GITHUB_PATH
