@@ -34,7 +34,7 @@ This subsystem provides main memory and environment control mechanisms:
 
 | Address | Description |
 |:--------|:------------|
-| `0x80000000` ... `0x803FFFFF` | Main memory (RAM), max 4MB; pre-initialized with the application executable |
+| `0x80000000` ... `0x803FFFFF` | Main memory (RAM), default 1MB, max 4MB; pre-initialized with the application executable |
 | `0xF0000000` | Write any value to terminate the simulation; writing `0x12345678` indicates a PASS; used by the `RVMODEL_HALT_PASS` and `RVMODEL_HALT_FAIL` macros |
 | `0xF0000004` | Print character (lowest 8 bits) to the simulator console; used by the `RVMODEL_IO_WRITE_STR` macro for test status and logging |
 | `0xF0000008` | Bit 0 controls the hart's external machine interrupt; used by `RVMODEL_SET_MEXT_INT` and `RVMODEL_CLR_MEXT_INT` macros |
