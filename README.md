@@ -4,10 +4,9 @@
 [![License](https://img.shields.io/github/license/stnolting/neorv32-riscv-act?longCache=true&style=flat-square&label=License)](https://github.com/stnolting/neorv32-riscv-act/blob/main/LICENSE)
 
 [NEORV32](https://github.com/stnolting/neorv32) port of the
-[RISC-V Architectural Certification Tests (ACTs)](https://github.com/riscv/riscv-arch-test)
+[RISC-V Architectural Certification Tests (ACT)](https://github.com/riscv/riscv-arch-test)
 to certify that the processor faithfully implements the RISC-V specification. This port was set up
 based on the ACT [_Getting Started_](https://github.com/riscv/riscv-arch-test#getting-started) guide.
-This port is still under development and will be expanded with additional ISA extensions in the future.
 
 
 ## Prerequisites
@@ -88,7 +87,7 @@ Dependabot is used to keep the `riscv-arch-test` and `neorv32` submodules up to 
 The Sail reference model generates full trace logs when the debugging flag is set int he main makefile:
 
 ```makefile
-	DEBUG=True \
+DEBUG=True \
 ```
 
 These trace logs are generated in the `riscv-arch-test/work/neorv32/build` directory
@@ -103,7 +102,7 @@ TRACE_EN : boolean := true; -- enable trace logging
 Add the failed test(s) to the `EXTENSIONS` variable, e.g.:
 
 ```makefile
-	EXTENSIONS=Sm,U \
+EXTENSIONS=Sm,U \
 ```
 
 Recompile the simulation base using `$make sim` and (re-)run test(s).
@@ -112,17 +111,26 @@ Trace logs will be generated in the test's `log` folder(s) using the following n
 
 ## Exemplary Test Results
 
-NEORV32 v1.13.1.3, 30th of May, 2026.
+NEORV32 v1.13.2.0, 14th of June, 2026.
 
 ```
+RESULT: All 287 tests passed.
 priv/ExceptionsSm/ExceptionsSm-00.log              RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsSm-00.S"
 priv/ExceptionsU/ExceptionsU-00.log                RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsU-00.S"
 priv/ExceptionsZaamo/ExceptionsZaamo-00.log        RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsZaamo-00.S"
 priv/ExceptionsZalrsc/ExceptionsZalrsc-00.log      RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsZalrsc-00.S"
 priv/ExceptionsZc/ExceptionsZc-00.log              RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsZc-00.S"
+priv/ExceptionsZicboU/ExceptionsZicboU-00.log      RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsZicboU-00.S"
 priv/InterruptsSm/InterruptsSm-00.log              RVCP-SUMMARY: TEST PASSED - Test File "InterruptsSm-00.S"
+priv/InterruptsU/InterruptsU-00.log                RVCP-SUMMARY: TEST PASSED - Test File "InterruptsU-00.S"
+priv/SsstrictSm/SsstrictSm-12.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-12.S"
+priv/SsstrictSm/SsstrictSm-13.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-13.S"
+priv/SsstrictSm/SsstrictSm-14.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-14.S"
+priv/SsstrictU/SsstrictU-08.log                    RVCP-SUMMARY: TEST PASSED - Test File "SsstrictU-08.S"
+priv/SsstrictU/SsstrictU-09.log                    RVCP-SUMMARY: TEST PASSED - Test File "SsstrictU-09.S"
 priv/U/U-00.log                                    RVCP-SUMMARY: TEST PASSED - Test File "U-00.S"
 priv/ZicntrU/ZicntrU-00.log                        RVCP-SUMMARY: TEST PASSED - Test File "ZicntrU-00.S"
+priv/pmp/pmp32/PMPSm/pmpsm_all_entries_check.log   RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_all_entries_check.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_A_all.log           RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_A_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_A_off_all.log       RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_A_off_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_A_tor_bot.log       RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_A_tor_bot.S"
@@ -135,7 +143,6 @@ priv/pmp/pmp32/PMPSm/pmpsm_cfg_XWR_all-01.log      RVCP-SUMMARY: TEST PASSED - T
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_XWR_all-02.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_XWR_all-02.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_XWR_all-03.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_XWR_all-03.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_XWR_all-04.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_XWR_all-04.S"
-priv/pmp/pmp32/PMPSm/pmpsm_cfg_na4_all.log         RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_na4_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_napot_all.log       RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_napot_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_tor_all.log         RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_tor_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_cfg_tor_check-01.log    RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_tor_check-01.S"
@@ -153,11 +160,6 @@ priv/pmp/pmp32/PMPSm/pmpsm_csr_walk-8.log          RVCP-SUMMARY: TEST PASSED - T
 priv/pmp/pmp32/PMPSm/pmpsm_csr_walk-9.log          RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_csr_walk-09.S"
 priv/pmp/pmp32/PMPSm/pmpsm_grain.log               RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_grain.S"
 priv/pmp/pmp32/PMPSm/pmpsm_grain_check.log         RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_grain_check.S"
-priv/pmp/pmp32/PMPSm/pmpsm_misaligned_na4.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_mislaigned_na4.S"
-priv/pmp/pmp32/PMPSm/pmpsm_misaligned_napot.log    RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_mislaigned_napot.S"
-priv/pmp/pmp32/PMPSm/pmpsm_misaligned_off.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_mislaigned_off.S"
-priv/pmp/pmp32/PMPSm/pmpsm_misaligned_tor.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_mislaigned_tor.S"
-priv/pmp/pmp32/PMPSm/pmpsm_na4_legal_lwxr.log      RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_cfg_napot_all.S"
 priv/pmp/pmp32/PMPSm/pmpsm_napot_legal_lwxr.log    RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_napot_legal_lwxr.S"
 priv/pmp/pmp32/PMPSm/pmpsm_priority.log            RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_priority.S"
 priv/pmp/pmp32/PMPSm/pmpsm_priority_off.log        RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_priority_off.S"
@@ -400,4 +402,5 @@ rv32i/Zmmul/Zmmul-mul-00.log                       RVCP-SUMMARY: TEST PASSED - T
 rv32i/Zmmul/Zmmul-mulh-00.log                      RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulh-00.S"
 rv32i/Zmmul/Zmmul-mulhsu-00.log                    RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulhsu-00.S"
 rv32i/Zmmul/Zmmul-mulhu-00.log                     RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulhu-00.S"
+
 ```
