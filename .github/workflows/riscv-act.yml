@@ -2,19 +2,7 @@ name: 'RISC-V Architectural Certification Tests (ACTs)'
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'config/**'
-      - '**/*.vhd'
-      - '**/*.yml'
-      - '**/Makefile'
   pull_request:
-    paths:
-      - 'config/**'
-      - '**/*.vhd'
-      - '**/*.yml'
-      - '**/Makefile'
   workflow_dispatch:
 
 jobs:
