@@ -402,5 +402,4 @@ rv32i/Zmmul/Zmmul-mul-00.log                       RVCP-SUMMARY: TEST PASSED - T
 rv32i/Zmmul/Zmmul-mulh-00.log                      RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulh-00.S"
 rv32i/Zmmul/Zmmul-mulhsu-00.log                    RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulhsu-00.S"
 rv32i/Zmmul/Zmmul-mulhu-00.log                     RVCP-SUMMARY: TEST PASSED - Test File "Zmmul-mulhu-00.S"
-
 ```
