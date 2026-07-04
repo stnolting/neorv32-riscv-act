@@ -99,6 +99,7 @@ begin
     RISCV_ISA_Zbkx      => true,
     RISCV_ISA_Zbs       => true,
     RISCV_ISA_Zcb       => true,
+    RISCV_ISA_Zcmop     => true,
     RISCV_ISA_Zibi      => true,
     RISCV_ISA_Zicntr    => true,
     RISCV_ISA_Zicond    => true,

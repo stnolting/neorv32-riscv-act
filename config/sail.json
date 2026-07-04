@@ -317,7 +317,7 @@
   "platform": {
     "vendorid": 0,
     "archid": 19,
-    "impid": 18022912,
+    "impid": 18022917,
     "hartid": 0,
     // Cache block size, specified as a power of 2.
     "cache_block_size_exp": 6,
@@ -565,7 +565,7 @@
       "supported": true
     },
     "Zcmop": {
-      "supported": false
+      "supported": true
     },
     "Zba": {
       "supported": true
