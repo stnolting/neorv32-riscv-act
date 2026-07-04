@@ -111,10 +111,10 @@ Trace logs will be generated in the test's `log` folder(s) using the following n
 
 ## Exemplary Test Results
 
-NEORV32 v1.13.2.0, 14th of June, 2026.
+NEORV32 v1.13.2.5, 4th of July, 2026.
 
 ```
-RESULT: All 287 tests passed.
+RESULT: All 293 tests passed.
 priv/ExceptionsSm/ExceptionsSm-00.log              RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsSm-00.S"
 priv/ExceptionsU/ExceptionsU-00.log                RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsU-00.S"
 priv/ExceptionsZaamo/ExceptionsZaamo-00.log        RVCP-SUMMARY: TEST PASSED - Test File "ExceptionsZaamo-00.S"
@@ -126,8 +126,6 @@ priv/InterruptsU/InterruptsU-00.log                RVCP-SUMMARY: TEST PASSED - T
 priv/SsstrictSm/SsstrictSm-12.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-12.S"
 priv/SsstrictSm/SsstrictSm-13.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-13.S"
 priv/SsstrictSm/SsstrictSm-14.log                  RVCP-SUMMARY: TEST PASSED - Test File "SsstrictSm-14.S"
-priv/SsstrictU/SsstrictU-08.log                    RVCP-SUMMARY: TEST PASSED - Test File "SsstrictU-08.S"
-priv/SsstrictU/SsstrictU-09.log                    RVCP-SUMMARY: TEST PASSED - Test File "SsstrictU-09.S"
 priv/U/U-00.log                                    RVCP-SUMMARY: TEST PASSED - Test File "U-00.S"
 priv/ZicntrU/ZicntrU-00.log                        RVCP-SUMMARY: TEST PASSED - Test File "ZicntrU-00.S"
 priv/pmp/pmp32/PMPSm/pmpsm_all_entries_check.log   RVCP-SUMMARY: TEST PASSED - Test File "pmpsm_all_entries_check.S"
@@ -327,6 +325,14 @@ rv32i/ZcbM/ZcbM-c.mul-00.log                       RVCP-SUMMARY: TEST PASSED - T
 rv32i/ZcbZbb/ZcbZbb-c.sext.b-00.log                RVCP-SUMMARY: TEST PASSED - Test File "ZcbZbb-c.sext.b-00.S"
 rv32i/ZcbZbb/ZcbZbb-c.sext.h-00.log                RVCP-SUMMARY: TEST PASSED - Test File "ZcbZbb-c.sext.h-00.S"
 rv32i/ZcbZbb/ZcbZbb-c.zext.h-00.log                RVCP-SUMMARY: TEST PASSED - Test File "ZcbZbb-c.zext.h-00.S"
+rv32i/Zcmop/Zcmop-c.mop.1-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.1-00.S"
+rv32i/Zcmop/Zcmop-c.mop.11-00.log                  RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.11-00.S"
+rv32i/Zcmop/Zcmop-c.mop.13-00.log                  RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.13-00.S"
+rv32i/Zcmop/Zcmop-c.mop.15-00.log                  RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.15-00.S"
+rv32i/Zcmop/Zcmop-c.mop.3-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.3-00.S"
+rv32i/Zcmop/Zcmop-c.mop.5-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.5-00.S"
+rv32i/Zcmop/Zcmop-c.mop.7-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.7-00.S"
+rv32i/Zcmop/Zcmop-c.mop.9-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zcmop-c.mop.9-00.S"
 rv32i/Zicntr/Zicntr-csrrc-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zicntr-csrrc-00.S"
 rv32i/Zicntr/Zicntr-csrrs-00.log                   RVCP-SUMMARY: TEST PASSED - Test File "Zicntr-csrrs-00.S"
 rv32i/Zicond/Zicond-czero.eqz-00.log               RVCP-SUMMARY: TEST PASSED - Test File "Zicond-czero.eqz-00.S"
