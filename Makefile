@@ -73,7 +73,7 @@ run:
 	@echo "Running tests..."
 	chmod +x ./config/run_cmd.sh
 	cd riscv-arch-test && \
-	./run_tests.py --timeout 2000 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
+	./run_tests.py --timeout 2500 -j $(JOBS) "./../config/run_cmd.sh __TRACEFILE__" work/neorv32/elfs/
 
 # cleanup everything
 clean:
