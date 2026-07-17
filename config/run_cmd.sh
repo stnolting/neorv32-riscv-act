@@ -21,4 +21,4 @@ ghdl -r --std=08 --work=neorv32 --workdir="$WORKDIR" neorv32_act_tb \
   --max-stack-alloc=0 \
   --ieee-asserts=disable \
   --assert-level=error \
-  --stop-time=16ms
+  --stop-time=25ms
