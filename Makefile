@@ -61,6 +61,8 @@ elfs:
 	EXTENSIONS= \
 	DEBUG=False \
 	make elfs --jobs $(JOBS)
+	@echo "[NEORV32] Removing unsupported tests..."
+	rm riscv-arch-test/work/neorv32/elfs/priv/Sm/Sm_mcsr_cntr-00.elf
 
 # setup DUT simulation
 sim:
