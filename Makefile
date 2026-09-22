@@ -56,11 +56,13 @@ tests:
 elfs:
 	@echo "Building ELFs..."
 	cd riscv-arch-test && \
-	EXCLUDE_EXTENSIONS=Sm \
+	EXCLUDE_EXTENSIONS= \
 	CONFIG_FILES=../config/test_config.yaml \
 	EXTENSIONS= \
 	DEBUG=False \
 	make elfs --jobs $(JOBS)
+	@echo "[NEORV32] Removing unsupported tests..."
+	rm riscv-arch-test/work/neorv32/elfs/priv/Sm/Sm_mcsr_cntr-00.elf
 
 # setup DUT simulation
 sim:
