@@ -139,12 +139,14 @@ begin
     trace_cpu0_o => trace_cpu0,
     -- External bus interface --
     xbus_adr_o   => xbus_req.addr,
-    xbus_dat_i   => xbus_rsp.data,
     xbus_dat_o   => xbus_req.data,
+    xbus_cti_o   => xbus_req.cti,
+    xbus_tag_o   => xbus_req.tag,
     xbus_we_o    => xbus_req.we,
     xbus_sel_o   => xbus_req.sel,
     xbus_stb_o   => xbus_req.stb,
     xbus_cyc_o   => xbus_req.cyc,
+    xbus_dat_i   => xbus_rsp.data,
     xbus_ack_i   => xbus_rsp.ack,
     xbus_err_i   => xbus_rsp.err,
     -- CPU Interrupts --
