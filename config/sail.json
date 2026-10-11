@@ -14,16 +14,29 @@
       "len": 32,
       "value": "0xFFFF_FFFF"
     },
-    // The top 29 bits in this value control whether the
-    // corresponding bits of the `scounteren` CSR that control HPM
-    // counters are read-only zero. A set bit specifies that the
-    // corresponding bit of `scounteren` is writable, otherwise
-    // the bit is read-only zero.  The lowest 3 bits are ignored.
-    // If Sscounterenw is supported this must be a superset of
-    // `writable_hpm_counters`.
+    // The precision of the HPM counter, upto 64 bits.
+    "hpmcounter_width_bits" : 64,
+    // The width of the `mhpmevent` CSRs, upto 64 bits, if Sscofpmf is
+    // not supported.  On RV32 without Sscofpmf, this can be upto 32,
+    // since the `mhpmeventh` CSRs are not accessible.
+    // If Sscofpmf is supported, the `mhpmevent` CSRs are always 64
+    // bits; this value then defines the number, upto 56, of the lowest
+    // bits of the CSRs that are used as the event selector.
+    "hpmevent_width_bits" : 9,
+    // Whether a `mhpmcounter` increments if the event it is counting
+    // was generated during a write to its corresponding `mhpmevent`
+    // CSR (which could change the monitored event).
+    "hpmcounter_increments_in_self_hpmevent_write" : false,
+    // The bits in this value control whether the corresponding bits
+    // of the `scounteren` CSR that control access to HPM counters,
+    // and `cycle`, `time` and `instret` registers, are read-only
+    // zero. A set bit specifies that the corresponding bit of
+    // `scounteren` is writable, otherwise the bit is read-only zero.
+    // If Sscounterenw is supported the top 29 bits must be a superset of
+    // the top 29 bits of `writable_hpm_counters`.
     "scounteren_writable_bits": {
       "len": 32,
-      "value": "0x0000_0000"
+      "value": "0xFFFF_FFFF"
     },
     // The bits in this value control whether the corresponding bits
     // of the `mcounteren` CSR that control access to HPM counters,
@@ -34,6 +47,29 @@
     "mcounteren_writable_bits": {
       "len": 32,
       "value": "0xFFFF_FFFF"
+    },
+    // The bits in this value control whether the corresponding bits
+    // of the `hcounteren` CSR that control access to HPM counters,
+    // and `cycle`, `time` and `instret` registers from VS/VU-mode,
+    // are read-only zero. A set bit specifies that the corresponding
+    // bit of `hcounteren` is writable, otherwise the bit is read-only
+    // zero. Same layout as `mcounteren`. If Shcounterenw is supported the
+    // top 29 bits must be a superset of the top 29 bits of
+    // `writable_hpm_counters`.
+    "hcounteren_writable_bits": {
+      "len": 32,
+      "value": "0xFFFF_FFFF"
+    },
+    "mcountinhibit" : {
+      // Whether the `mcountinhibit` CSR is implemented.
+      "supported": true,
+      // This bits in this value control whether the corresponding
+      // bits of the CSR are writable.  Note that bit 1 cannot be  written to
+      // as it is read-only zero.
+      "writable_bits": {
+        "len": 32,
+        "value": "0xFFFF_FFFD"
+      }
     },
     // `mtvec.{direct,vectored}.supported` indicates whether the
     // corresponding mode is supported for `mtvec`.  At least one mode
@@ -62,7 +98,21 @@
       // (i.e. 4-byte alignment), hence there is no configuration
       // parameter for it.
       "direct": {
-        "supported": false
+        "supported": true
+      },
+      "vectored": {
+        "supported": true,
+        "base_alignment": 2
+      }
+    },
+    // Similar to `stvec` above. If the `H` extension is not supported,
+    // these values need to be present and legal but are ignored.
+    "vstvec": {
+      // The spec requires `base_alignment` for `vstvec.direct` to be 2
+      // (i.e. 4-byte alignment), hence there is no configuration
+      // parameter for it.
+      "direct": {
+        "supported": true
       },
       "vectored": {
         "supported": true,
@@ -101,18 +151,23 @@
     // `xtval` registers.
     "xtval_nonzero": {
       "illegal_instruction": true,
+      "virtual_instruction": false,
       "software_breakpoint": false,
       "hardware_breakpoint": false,
       "load_address_misaligned": true,
       "load_access_fault": true,
       "load_page_fault": false,
+      "load_guest_page_fault": false,
       "samo_address_misaligned": true,
       "samo_access_fault": true,
       "samo_page_fault": false,
+      "samo_guest_page_fault": false,
       "fetch_address_misaligned": true,
       "fetch_access_fault": false,
       "fetch_page_fault": false,
+      "fetch_guest_page_fault": false,
       "software_check": false,
+      "hardware_error": false,
       "reserved_exceptions": false
     },
     "reserved_behavior": {
@@ -174,6 +229,8 @@
     // bitvectors in the model and since it is unlikely real implementations
     // will have lower values.
     "physaddr_bits": 32,
+    "asidlen": 9,
+    "vmidlen": 7,
     "pmp": {
       "grain": 0,
       // This specifies the number of PMP entries present.
@@ -218,21 +275,10 @@
         // A misaligned LR/SC currently always faults, and this field can specify
         // whether it generates an access fault (use `"AccessFault"`)
         // or a misaligned exception (use `"AlignmentException"`).
-        "lrsc": "AlignmentException"
+        "lrsc": {
+          "Some": "AlignmentException"
+        }
       },
-      // If a misaligned access was specified to have no fault in `exceptions` above, the
-      // fields below specify how it is handled.
-      //
-      // Memory accesses that span multiple naturally aligned
-      // 2^allowed_within_exp sized regions will be split into multiple
-      // memory operations. 0 means all misaligned accesses will be split.
-      // The maximum value is 12 (one page).
-      "allowed_within_exp": 0,
-      // If the access gets split due to `allowed_within_exp` then the size
-      // of the operations will be one byte if `byte_by_byte` is set, otherwise
-      // they will be the maximum size possible based on the alignment. For
-      // example a 4-byte access to address 0x2 will use two 2-byte operations.
-      "byte_by_byte": false,
       // If multiple memory operations are needed, this controls whether they
       // are done in increasing or decreasing address order. This is architecturally
       // observable because some store operations may succeed, and even for
@@ -288,12 +334,13 @@
           "write_idempotent": true,
           "misaligned_exceptions": {
             "load_store": {
-              "None": null
+              "Some": "AlignmentException"
             },
             "vector": {
-              "None": null
+              "Some": "AlignmentException"
             },
-            "amo": "AlignmentException"
+            "amo": "AlignmentException",
+            "lrsc": "AlignmentException"
           },
           "atomic_support": "AMONone",
           "misaligned_atomicity_granule_size_exp": 0,
@@ -331,7 +378,8 @@
             "vector": {
               "Some": "AlignmentException"
             },
-            "amo": "AlignmentException"
+            "amo": "AlignmentException",
+            "lrsc": "AlignmentException"
           },
           "atomic_support": "AMONone",
           "misaligned_atomicity_granule_size_exp": 0,
@@ -364,12 +412,13 @@
           "write_idempotent": true,
           "misaligned_exceptions": {
             "load_store": {
-              "None": null
+              "Some": "AlignmentException"
             },
             "vector": {
-              "None": null
+              "Some": "AlignmentException"
             },
-            "amo": "AlignmentException"
+            "amo": "AlignmentException",
+            "lrsc": "AlignmentException"
           },
           "atomic_support": "AMOArithmetic",
           "misaligned_atomicity_granule_size_exp": 0,
@@ -386,7 +435,7 @@
   "platform": {
     "vendorid": 0,
     "archid": 19,
-    "impid": 18023938,
+    "impid": 18023940,
     "hartid": 0,
     // Cache block size, specified as a power of 2.
     "cache_block_size_exp": 6,
@@ -405,6 +454,13 @@
       // model invalidates the reservation if a store from the same hart lies within
       // the reservation set.
       "invalidate_on_same_hart_store": true
+    },
+    "interrupts": {
+      "machine": {
+        "software": { "supported": true },
+        "external": { "supported": true },
+        "timer":    { "supported": true }
+      }
     },
     "clint": {
       "supported": true,
@@ -439,20 +495,47 @@
     // Note: it is also legal for these instructions to spuriously
     // retire successfully at any point, but there is currently no
     // configuration option for this behaviour.
-    "max_time_to_wait": 200
+    "max_time_to_wait": 20000,
+    // The model can generate the following events that can be tracked
+    // using the HPM counters:
+    // - EV_FENCE
+    // - EV_MISALIGNED_LOAD_EXCEPTION
+    // - EV_MISALIGNED_STORE_EXCEPTION
+    // - EV_TLB_MISS
+    //
+    // An event can be mapped to a selector value, that when written
+    // to the event field of an `mhpmeventNN` CSR, will increment the
+    // corresponding `mhpmcounterNN` CSR as per the specification
+    // (e.g. the `Sscofpmf` extension).
+    //
+    // The selector values need to fit into the event field of an
+    // `mhpmeventNN` CSR. When Sscofpmf is not supported, this field
+    // is `base.hpmevent_width_bits` wide; with Sscofpmf, this field
+    // is the lowest 56 bits of the 64-bit `mhpeventNN` CSR.
+    //
+    // The `event_selectors` list can contain any subset of these
+    // supported events.  Events cannot be repeated in the list, and
+    // the selector values should be unique.  These selector values
+    // are always specified as 64-bit, but their values must fit the
+    // width restrictions mentioned above.
+    "event_selectors": []
   },
   "extensions": {
     "M": {
-      "supported": true
+      "supported": true,
+      "mutable_misa": false
     },
     "A": {
-      "supported": true
+      "supported": true,
+      "mutable_misa": false
     },
     "F": {
       "supported": false,
+      "mutable_misa": false,
       "fflags_dirty_policy": "Fflags_Dirty_Precise"
     },
     "D": {
+      "mutable_misa": false,
       "supported": false
     },
     "V": {
@@ -468,6 +551,7 @@
       // Zve64x, Zve64f, and Zve64d require `elen_exp` >= 6,
       // and V requires `elen_exp` >= 6 and `vlen_exp` >= 7.
       "support_level": "Disabled",
+      "mutable_misa": false,
       // `vlen_exp` and `elen_exp` should be between 3 and 16,
       // inclusive.  If `support_level` is `"Disabled"`, then these
       // should be left as 3 (or any other legal value).
@@ -509,13 +593,52 @@
       }
     },
     "B": {
-      "supported": true
+      "supported": true,
+      "mutable_misa": false
+    },
+    "C": {
+      "mutable_misa": false
+    },
+    "H": {
+      "supported": false,
+      "mutable_misa": false,
+      "geilen": 0,
+      "guest_page_fault_writes_htval": true,
+      "transformed_instruction": {
+        "load_access_fault": true,
+        "load_address_misaligned": true,
+        "load_guest_page_fault": true,
+        "load_page_fault": true,
+        "samo_access_fault": true,
+        "samo_address_misaligned": true,
+        "samo_guest_page_fault": true,
+        "samo_page_fault": true
+      },
+      "hgatp_modes": {
+        "Sv32x4": false,
+        "Sv39x4": false,
+        "Sv48x4": false,
+        "Sv57x4": false
+      },
+      "vsatp_modes": {
+        "Sv32": true,
+        "Sv39": false,
+        "Sv48": false,
+        "Sv57": false
+      }
     },
     "S": {
-      "supported": false
+      "supported": false,
+      "mutable_misa": false,
+      "interrupts": {
+        "software": { "supported": false },
+        "external": { "supported": false },
+        "timer":    { "supported": false }
+      }
     },
     "U": {
-      "supported": true
+      "supported": true,
+      "mutable_misa": false
     },
     "Zibi": {
       "supported": true
@@ -577,6 +700,9 @@
     "Zihpm": {
       "supported": true
     },
+    "Zilx": {
+      "supported": false
+    },
     "Zimop": {
       "supported": true
     },
@@ -595,11 +721,6 @@
     "Zalrsc": {
       "supported": true
     },
-    // This extension just asserts that each memory region has a MAG
-    // PMA of 16 bytes.  If you enable this you also need to ensure
-    // `misaligned_atomicity_granule_size_exp` for each coherent and
-    // cacheable main memory region is 4, otherwise you will get a
-    // config validation error.
     "Zama16b": {
       "supported": false
     },
@@ -745,18 +866,95 @@
     "Ssccptr": {
       "supported": false
     },
+    "Sdtrig": {
+      "supported": false,
+      // The number of supported triggers.  This has to be
+      // non-negative, and greater than 0 if Sdtrig is supported.  The
+      // model does not support more than 16 triggers.
+      "num_triggers": 2,
+      // `breakpoint_reentrancy` must be one of the below strings:
+      // . `Use_tcontrol`: use the `mte` and `mpte` bits in the `tcontrol` CSR (this also makes the `tcontrol` CSR available)
+      // . `Use_interrupt_enables`: use `mstatus.MIE` and the `SIE` bits in `sstatus` and `vsstatus`
+      // . `No_reentrancy_support`: no specific support for reentrancy
+      "breakpoint_reentrancy": "Use_interrupt_enables",
+      // CSRs
+      "mcontext": {
+        "supported": false
+      },
+      "hcontext": {
+        "supported": false
+      },
+      "scontext": {
+        "supported": false
+      },
+      // Triggers
+      "icount": {
+        "supported": false,
+        "count_hardwired_one": false,
+        // Whether a `tdata1` write to an `icount` trigger with `count`=1 also makes it
+        // pending when that write's instruction matches the trigger.
+        "self_write_sets_pending": true
+      },
+      "etrigger": {
+        "supported": false,
+        // A bit set to 1 in this value specifies that the
+        // corresponding exception is supported by the trigger.
+        // Triggers for reserved exceptions are not supported.  This
+        // value is ignored when `etrigger` is not supported.
+        "supported_exceptions": {
+          "len": "xlen",
+          "value": "0x00000000"
+        }
+      },
+      "itrigger": {
+        "supported": false,
+        // A bit set to 1 in this value specifies that the
+        // corresponding interrupt is supported by the trigger.
+        // Triggers for reserved interrupts are not supported.  This
+        // value is ignored when `itrigger` is not supported.
+        "supported_interrupts": {
+          "len": "xlen",
+          "value": "0x00000000"
+        }
+      }
+    },
     "Sscofpmf": {
+      "supported": false
+    },
+    "Sha": {
+      "supported": false
+    },
+    "Shcounterenw": {
       "supported": false
     },
     "Sscounterenw": {
       "supported": false
     },
+    "Shvsatpa": {
+      "supported": false
+    },
+    "Shvstvala": {
+      "supported": false
+    },
+    "Shvstvecd": {
+      "supported": false
+    },
+    "Ssstrict": {
+      "supported": false
+    },
     "Sstc": {
       "supported": false
     },
-    // Enabling Sstvala requires that the exceptions specified in the extension
-    // have their appropriate settings under `base.xtval_nonzero`.
+    "Shgatpa": {
+      "supported": false
+    },
+    "Shtvala": {
+      "supported": false
+    },
     "Sstvala": {
+      "supported": false
+    },
+    "Sstvecd": {
       "supported": false
     },
     "Svade": {
@@ -772,6 +970,9 @@
       "supported": false
     },
     "Svnapot": {
+      "supported": false
+    },
+    "Svukte": {
       "supported": false
     },
     "Ssnpm": {
@@ -791,6 +992,12 @@
     },
     "Smcntrpmf": {
       "supported": true
+    },
+    "Smdbltrp": {
+      "supported": false
+    },
+    "Ssdbltrp": {
+      "supported": false
     },
     "Svbare": {
       "supported": false,
