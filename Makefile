@@ -50,7 +50,7 @@ tests:
 	@echo "Generating tests and coverpoints..."
 	cd riscv-arch-test && \
 	CONFIG_FILES=../config/test_config.yaml \
-	make tests --jobs $(JOBS)
+	make tests
 
 # build target ELFs
 elfs:
