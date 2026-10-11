@@ -9,6 +9,9 @@ jobs:
 
   neorv32-riscv-act:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
 
     steps:
 
