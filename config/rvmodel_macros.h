@@ -11,7 +11,6 @@
   .align 8; .global fromhost; fromhost: .dword 0; \
   .popsection;
 
-
 ##### STARTUP #####
 
 # Perform boot operations. Can be empty or left undefined unless needed for
@@ -21,7 +20,6 @@
 
 # No custom boot-to-m-mode required.
 //#define RVMODEL_BOOT_TO_MMODE
-
 
 ##### TERMINATION #####
 
@@ -40,7 +38,6 @@
   li x2, 0;               \
   sw x2, 0(x1);           \
   j .;                    \
-
 
 ##### IO #####
 
@@ -65,21 +62,17 @@
   j 1b;                                               \
 2:
 
-
 ##### Access Fault #####
 
 #define RVMODEL_ACCESS_FAULT_ADDRESS 0x00000000
-
 
 ##### MTVEC Alignment #####
 
 #define RVMODEL_MTVEC_ALIGN 7
 
-
 ##### Interrupt Latency #####
 
 #define RVMODEL_INTERRUPT_LATENCY 10
-
 
 ##### Machine Timer & Interrupts #####
 
@@ -104,21 +97,9 @@
   li _R2, MEXT_BASE_ADDRESS;           \
   sw x0, 0(_R2);
 
-#define RVMODEL_SET_MSW_INT(_R1, _R2) \
-  li _R1, 1;                          \
-  li _R2, RVMODEL_MSIP_ADDRESS;       \
-  sw _R1, 0(_R2);
-
-#define RVMODEL_CLR_MSW_INT(_R1, _R2) \
-  li _R2, RVMODEL_MSIP_ADDRESS;       \
-  sw x0, 0(_R2);
-
-
 ##### Supervisor Interrupts (not available) #####
 
 #define RVMODEL_SET_SEXT_INT(_R1, _R2)
 #define RVMODEL_CLR_SEXT_INT(_R1, _R2)
-#define RVMODEL_SET_SSW_INT(_R1, _R2)
-#define RVMODEL_CLR_SSW_INT(_R1, _R2)
 
 #endif // _RVMODEL_MACROS_H
