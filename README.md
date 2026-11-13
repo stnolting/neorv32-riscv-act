@@ -1,3 +1,6 @@
+> [!Important]
+> **The RISC-V ACT tests have been integrated into the main [NEORV32 repository](https://github.com/stnolting/neorv32/pull/1690).**
+
 # NEORV32 RISC-V Architectural Certification Tests
 
 [![neorv32-riscv-act](https://img.shields.io/github/actions/workflow/status/stnolting/neorv32-riscv-act/riscv-act.yml?branch=main&longCache=true&style=flat-square&label=neorv32-riscv-act&logo=Github%20Actions&logoColor=fff)](https://github.com/stnolting/neorv32-riscv-act/actions/workflows/riscv-act.yml)
